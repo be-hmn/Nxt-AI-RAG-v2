@@ -1,18 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { ThemeProvider } from './contexts/ThemeContext';
-import { LayoutProvider, useLayout } from './contexts/LayoutContext';
+import { LayoutProvider } from './contexts/LayoutContext';
 import { AdminPage } from './pages/AdminPage';
+import { ChatPage } from './pages/ChatPage';
 import Sidebar from './components/Sidebar';
 import './styles/globals.css';
 
+type Page = 'admin' | 'chat';
+
 const AppContent: React.FC = () => {
-  const { isSidebarCollapsed } = useLayout();
-  
+  const [currentPage, setCurrentPage] = useState<Page>('admin');
+
   return (
-    <div className={`app-layout ${isSidebarCollapsed ? 'sidebar-collapsed' : ''}`}>
-      <Sidebar />
+    <div className="app-layout">
+      <Sidebar currentPage={currentPage} onPageChange={setCurrentPage} />
       <main className="app-main-content">
-        <AdminPage />
+        {currentPage === 'admin' && <AdminPage />}
+        {currentPage === 'chat' && <ChatPage />}
       </main>
     </div>
   );

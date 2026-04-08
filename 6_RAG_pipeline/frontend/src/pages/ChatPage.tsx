@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Message } from '../types';
 import { ChatInterface } from '../components/ChatInterface';
 import { apiClient } from '../services/api';
-import '../styles/UserPage.css';
+import '../styles/ChatInterface.css';
 
-export const UserPage: React.FC = () => {
+export const ChatPage: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [sessionId] = useState(`user_${Date.now()}`);
@@ -35,8 +35,7 @@ export const UserPage: React.FC = () => {
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
-    } catch (error) {
-      console.error('Chat error:', error);
+    } catch {
       const errorMessage: Message = {
         id: `msg_${Date.now()}_error`,
         type: 'assistant',
@@ -50,12 +49,8 @@ export const UserPage: React.FC = () => {
   };
 
   const handleClearHistory = async () => {
-    try {
-      await apiClient.clearChatHistory(sessionId);
-      setMessages([]);
-    } catch (error) {
-      console.error('Clear history error:', error);
-    }
+    await apiClient.clearChatHistory(sessionId);
+    setMessages([]);
   };
 
   return (

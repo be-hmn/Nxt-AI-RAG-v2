@@ -19,7 +19,7 @@ const getBaseUrl = () => {
   if (typeof window !== 'undefined') {
     // 8001(admin) 또는 8002(user) 포트에서 실행 중이면 해당 origin 사용
     // npm start(3000) 등에서 실행 중이면 proxy 설정을 타도록 상대 경로만 반환
-    if (window.location.port === '8001' || window.location.port === '8002') {
+    if (window.location.port === '8000') {
       return `${window.location.origin}/api`;
     }
   }
