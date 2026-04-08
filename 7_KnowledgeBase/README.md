@@ -6,12 +6,8 @@ AWS Bedrock을 활용한 지식 베이스 관리 및 챗봇 시스템입니다.
 
 ```
 7_KnowledgeBase/
-├── admin/              # 관리자용 애플리케이션
-│   ├── client/        # React 프론트엔드 (KB 관리 UI)
-│   └── server/        # FastAPI 백엔드 (KB 관리 API)
-├── user/              # 사용자용 애플리케이션
-│   ├── client/        # React 프론트엔드 (챗봇 UI)
-│   └── server/        # FastAPI 백엔드 (챗봇 API)
+├── backend/           # FastAPI 백엔드 (KB 관리 + 챗봇 API)
+├── frontend/          # React 프론트엔드 (KB 관리 + 챗봇 UI)
 ├── data/              # 샘플 문서 데이터
 ├── kbs.json           # Knowledge Base 설정 파일
 └── requirements.txt   # Python 의존성 패키지
@@ -19,15 +15,14 @@ AWS Bedrock을 활용한 지식 베이스 관리 및 챗봇 시스템입니다.
 
 ## 주요 기능
 
-### 관리자 (Admin)
-- Knowledge Base 등록 및 관리
-- 문서 업로드 및 동기화
+### KB 관리
+- Knowledge Base 등록 및 삭제
+- 문서 업로드 및 S3 동기화
 - Ingestion 상태 조회
 - 문서 목록 조회
-- 챗봇 테스트
 
-### 사용자 (User)
-- Knowledge Base 기반 챗봇 질의응답
+### 챗봇
+- Knowledge Base 기반 RAG 질의응답
 - 채팅 히스토리 관리
 
 ## 기술 스택
@@ -63,11 +58,17 @@ pip install -r requirements.txt
 - AWS 자격 증명 설정 (AWS CLI 또는 환경 변수)
 - 데이터베이스 연결 정보 설정
 
+4. 서버 실행
+```bash
+cd backend
+uvicorn main:app --reload --port 8000
+```
+
 ### Frontend 설정
 
 1. 의존성 설치
 ```bash
-cd admin/client  # 또는 user/client
+cd frontend
 npm install
 ```
 
@@ -76,34 +77,24 @@ npm install
 npm start
 ```
 
-### 서버 실행
+### 실행 포트
 
-**관리자 서버:**
-```bash
-cd admin/server
-uvicorn main:app --reload --port 8001
-```
+| 서비스 | 포트 |
+|--------|------|
+| Backend (FastAPI) | 8000 |
+| Frontend (React Dev) | 3000 |
 
-**사용자 서버:**
-```bash
-cd user/server
-uvicorn main:app --reload --port 8002
-```
+## API 엔드포인트 (포트 8000)
 
-## API 엔드포인트
-
-### 관리자 API (포트 8001)
+### KB 관리
 - `GET /api/admin/kbs` - KB 목록 조회
 - `POST /api/admin/kbs` - KB 등록
 - `DELETE /api/admin/kbs/{kb_id}` - KB 삭제
 - `POST /api/admin/upload-and-sync` - 문서 업로드 및 동기화
 - `GET /api/admin/ingest-status/{kb_id}/{ds_id}/{job_id}` - Ingestion 상태 조회
 - `GET /api/admin/documents/{ds_id}` - 문서 목록 조회
-- `POST /api/chat` - 챗봇 질의응답
-- `DELETE /api/chat-history/{session_id}` - 채팅 히스토리 삭제
 
-### 사용자 API (포트 8002)
-- `GET /api/admin/kbs` - KB 목록 조회
+### 챗봇
 - `POST /api/chat` - 챗봇 질의응답
 - `DELETE /api/chat-history/{session_id}` - 채팅 히스토리 삭제
 
