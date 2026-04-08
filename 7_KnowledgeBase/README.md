@@ -6,8 +6,8 @@ AWS Bedrock을 활용한 지식 베이스 관리 및 챗봇 시스템입니다.
 
 ```
 7_KnowledgeBase/
-├── backend/           # FastAPI 백엔드 (KB 관리 + 챗봇 API)
-├── frontend/          # React 프론트엔드 (KB 관리 + 챗봇 UI)
+├── server/            # FastAPI 백엔드 (KB 관리 + 챗봇 API)
+├── client/            # React 프론트엔드 (KB 관리 + 챗봇 UI)
 ├── data/              # 샘플 문서 데이터
 ├── kbs.json           # Knowledge Base 설정 파일
 └── requirements.txt   # Python 의존성 패키지
@@ -60,15 +60,15 @@ pip install -r requirements.txt
 
 4. 서버 실행
 ```bash
-cd backend
+cd server
 uvicorn main:app --reload --port 8000
 ```
 
-### Frontend 설정
+### Client 설정
 
 1. 의존성 설치
 ```bash
-cd frontend
+cd client
 npm install
 ```
 
@@ -81,8 +81,8 @@ npm start
 
 | 서비스 | 포트 |
 |--------|------|
-| Backend (FastAPI) | 8000 |
-| Frontend (React Dev) | 3000 |
+| Server (FastAPI) | 8000 |
+| Client (React Dev) | 3000 |
 
 ## API 엔드포인트 (포트 8000)
 

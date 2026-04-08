@@ -6,11 +6,11 @@ AI 문서 검색 및 챗봇 시스템 (Retrieval-Augmented Generation)
 
 ```
 6_RAG_pipeline/
-├── backend/                  # FastAPI 백엔드 (문서 관리 + 챗봇 API)
+├── server/                   # FastAPI 백엔드 (문서 관리 + 챗봇 API)
 │   ├── main.py              # API 엔드포인트
 │   ├── db/                  # 데이터베이스 관리
 │   └── lambda/              # AWS Lambda 함수
-├── frontend/                 # React 프론트엔드 (문서 관리 + 챗봇 UI)
+├── client/                   # React 프론트엔드 (문서 관리 + 챗봇 UI)
 ├── requirements.txt          # Python 의존성
 └── .env.example              # 환경 변수 템플릿
 ```
@@ -49,14 +49,14 @@ cp .env.example .env
 ### Backend 실행
 
 ```bash
-cd backend
+cd server
 uvicorn main:app --reload --port 8000
 ```
 
-### Frontend 실행
+### Client 실행
 
 ```bash
-cd frontend
+cd client
 npm install
 npm start
 ```
@@ -65,8 +65,8 @@ npm start
 
 | 서비스 | 포트 |
 |--------|------|
-| Backend (FastAPI) | 8000 |
-| Frontend (React Dev) | 3000 |
+| Server (FastAPI) | 8000 |
+| Client (React Dev) | 3000 |
 
 ## 주요 기능
 
