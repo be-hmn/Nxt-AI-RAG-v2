@@ -72,20 +72,14 @@ def find_similar_chunks(query_embedding, k=3):
     try:
         cursor.execute("""
             SELECT content, metadata,
-                   embedding as doc_embedding
+                   1 - (embedding <=> %s::vector) as similarity
             FROM documents
             ORDER BY embedding <=> %s::vector
             LIMIT %s;
-        """, (query_embedding, k))
+        """, (query_embedding, query_embedding, k))
 
         results = cursor.fetchall()
-
-        def calculate_cosine_similarity(qe, e):
-            qe_array = np.array(qe, dtype=float)
-            e_array = np.array(e, dtype=float)
-            return np.dot(qe_array, e_array) / (np.linalg.norm(qe_array) * np.linalg.norm(e_array))
-
-        return [(row[0], row[1], calculate_cosine_similarity(query_embedding, row[2])) for row in results]
+        return [(row[0], row[1], row[2]) for row in results]
     finally:
         cursor.close()
         conn.close()
@@ -133,7 +127,11 @@ class RAGChatbot:
     def get_session_history(self, session_id):
         if session_id not in self.chat_histories:
             self.chat_histories[session_id] = InMemoryChatMessageHistory()
-        return self.chat_histories[session_id]
+        history = self.chat_histories[session_id]
+        # 최근 3쌍(6개 메시지)만 유지
+        if len(history.messages) > 6:
+            history.messages = history.messages[-6:]
+        return history
 
     def generate_response(self, query: str, session_id: Optional[str] = None):
         session_id = session_id or "default"
@@ -141,7 +139,6 @@ class RAGChatbot:
         conversation = RunnableWithMessageHistory(
             self.llm,
             self.get_session_history,
-            max_history=3
         ).with_config(configurable={"session_id": session_id})
 
         query_embedding = get_embedding(query, self.bedrock_client)

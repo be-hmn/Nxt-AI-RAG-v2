@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Message } from '../types';
 import { ChatInterface } from '../components/ChatInterface';
 import { apiClient } from '../services/api';
+import '../styles/UserPage.css';
 import '../styles/ChatInterface.css';
 
 export const ChatPage: React.FC = () => {

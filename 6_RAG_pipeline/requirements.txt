@@ -4,7 +4,7 @@ python-dotenv
 boto3
 psycopg2-binary
 langchain-aws
-langchain-core
+langchain-core<0.4
 pydantic
 python-multipart
 numpy
