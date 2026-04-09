@@ -5,6 +5,7 @@ langchain-community<0.4
 langchain-core<0.4
 langchain-aws
 pymupdf
+pypdf
 tiktoken
 chromadb
 numpy
