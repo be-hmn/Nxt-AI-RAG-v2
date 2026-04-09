@@ -1,8 +1,8 @@
 streamlit>=1.41.1
 boto3>=1.36.2
-langchain
-langchain-community
-langchain-core
+langchain<1.0
+langchain-community<0.4
+langchain-core<0.4
 langchain-aws
 pymupdf
 tiktoken
