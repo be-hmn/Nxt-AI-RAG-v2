@@ -30,16 +30,21 @@ def get_response_from_bedrock(prompt):
 
         # Bedrock 모델 호출
         response = bedrock_runtime.invoke_model(
-            modelId=FILL_ME_IN,  # 사용할 모델 ID
+            modelId="anthropic.claude-3-haiku-20240307-v1:0",  # 사용할 모델 ID
             body=body,  # 요청 본문 전달
         )
         response_body = json.loads(response.get("body").read())  # 응답 본문 JSON 파싱
 
         ### AI 응답 데이터의 형식과 내용을 확인하세요. ###
         ### 응답 데이터를 참고하여 아래 추출 데이터를 적절하게 변수에 할당하세요.
+        
+        # AI 응답 테스트
+        print("#"*20)
+        print(response_body)
+        print("#"*20)
 
         # 모델의 응답 텍스트 추출
-        output_text = FILL_ME_IN
+        output_text = response_body["content"][0]["text"]
 
         return output_text
     except (BotoCoreError, ClientError) as e:
